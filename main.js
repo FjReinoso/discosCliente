@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //Simplemente la carga inicial de discos
 function inicializarDiscos() {
     discos.push(new Disco('The Dark Side of the Moon', 'Pink Floyd', 1973, 'rock', 1));
-    discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 'Madrid'));
+    discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 2));
     discos.push(new Disco('Nevermind', 'Nirvana', 1991, 'punk', 3));
-    discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 'Granada'));
+    discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 4));
 }
 //Contamos discos y representamos (En el div de resultado siempre vamos a mostrar la orden hecha por si acaso)
 function mostrarNumeroDiscos() {
@@ -70,7 +70,7 @@ function mostrarFormularioAñadirDisco() {
             </div>
             <div class="form-group">
                 <label for="localizacion">Localización:</label>
-                <input type="text" class="form-control" id="localizacion" name="localizacion">
+                <input type="number" class="form-control" id="localizacion" name="localizacion">
             </div>
             <button type="button" class="btn btn-success" onclick="guardarDisco()">Guardar Disco</button>
         </form>
