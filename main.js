@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
 //Simplemente la carga inicial de discos
 function inicializarDiscos() {
     if (discos.length === 0) {
-        discos.push(new Disco('The Dark Side of the Moon', 'Pink Floyd', 1973, 'rock', 1, 'DSOTM_YOUTUBE_URL'));
-        discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 2, 'THRILLER_YOUTUBE_URL'));
-        discos.push(new Disco('Nevermind', 'Nirvana', 1991, 'punk', 3, 'NEVERMIND_YOUTUBE_URL'));
-        discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 4, 'AM_YOUTUBE_URL'));
+        discos.push(new Disco('The Dark Side of the Moon', 'Pink Floyd', 1973, 'rock', 1, 'DVQ3-Xe_suY'));
+        discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 2, 'sOnqjkJTMaA'));
+        discos.push(new Disco('Nevermind', 'Nirvana', 1991, 'punk', 3, 'hTWKbfoikeg'));
+        discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 4, 'bpOSxM0rNPM'));
         guardarDiscosEnLocalStorage();
     }
 }
