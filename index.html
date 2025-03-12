@@ -1,12 +1,13 @@
-            <!-- Práctica de Clientes/Diseño
-                Hecha por : Francisco José Garcia Reinoso -->
+<!-- Práctica de Clientes/Diseño
+Hecha por : Francisco José Garcia Reinoso -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Discos</title> 
             <!-- Importar estilos de bootstrap, estilos generales, nuesto disco.js dond tenemos el objeto
-                 y tambien nuestro main donde están todas las funcionalidades -->
+                    y tambien nuestro main donde están todas las funcionalidades -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
     <script src="disco.js" defer></script>
@@ -24,6 +25,7 @@
                     <button class="btn btn-primary btn-block" onclick="mostrarFormularioAñadirDisco()">Añadir un disco</button>
                     <button class="btn btn-primary btn-block" onclick="borrarDisco()">Borrar un disco</button>
                     <button class="btn btn-primary btn-block" onclick="consultarDisco()">Consultar un disco</button>
+                    <button class="btn btn-primary btn-block" onclick="mostrarReproductor()">Mostrar Reproductor de YouTube</button>
                     <button class="btn btn-danger btn-block" onclick="cerrarMenu()">Cerrar Menú</button>
                 </div>
             </div>
@@ -38,6 +40,11 @@
                 <div id="contenido-principal" class="mb-4">
                     <!-- Aquí se insertará todo lo que generen las opciones (listados, formulario, resultado) -->
                 </div>
+                <div id="youtube-player" class="mb-4 text-center" style="display: none;">
+                    <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <select id="disco-select" class="form-control mt-2" onchange="cambiarVideo()">
+                    </select>
+                </div>
                 <div id="resultado" class="alert alert-info"></div>
             </div>
         </div>
@@ -45,9 +52,8 @@
                         <!-- Un footer generico para añadir algo de color a la página y que no se vea como un páramo -->
     <footer class="bg-primary text-white text-center py-3 mt-4">
         <div class="container">
-            <p class="mb-1">Derechos reservados</p>
-            <p class="mb-1">Puede contactar conmigo en <a href="mailto:ifjreinoso@gmail.com" class="text-white">ifjreinoso@gmail.com</a></p>
-            <p class="mb-0">Desarrollado por el IES Abdera</p>
+            <p class="mb-0">Derechos reservados</p>
+            <p class="mb-0">Puede contactar conmigo en <a href="mailto:ifjreinoso@gmail.com" class="text-white">ifjreinoso@gmail.com</a> || Desarrollado por el IES Abdera</p>
         </div>
     </footer>
                         <!-- importar bootstrap -->

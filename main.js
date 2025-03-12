@@ -3,6 +3,7 @@
 let discos = []; //Inicializamos nuestra mini base de datos de discos
 //añadimos event listener para que al pulsar el botón de la sidebar se muestre el menú
 document.addEventListener('DOMContentLoaded', function() {
+    cargarDiscosDeLocalStorage();
     inicializarDiscos();
     document.getElementById('toggle-menu').addEventListener('click', function() {
         let sidebar = document.getElementById('sidebar');
@@ -18,24 +19,30 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 //Simplemente la carga inicial de discos
 function inicializarDiscos() {
-    discos.push(new Disco('The Dark Side of the Moon', 'Pink Floyd', 1973, 'rock', 1));
-    discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 2));
-    discos.push(new Disco('Nevermind', 'Nirvana', 1991, 'punk', 3));
-    discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 4));
+    if (discos.length === 0) {
+        discos.push(new Disco('The Dark Side of the Moon', 'Pink Floyd', 1973, 'rock', 1, 'DSOTM_YOUTUBE_URL'));
+        discos.push(new Disco('Thriller', 'Michael Jackson', 1982, 'pop', 2, 'THRILLER_YOUTUBE_URL'));
+        discos.push(new Disco('Nevermind', 'Nirvana', 1991, 'punk', 3, 'NEVERMIND_YOUTUBE_URL'));
+        discos.push(new Disco('AM', 'Arctic Monkeys', 2013, 'indie', 4, 'AM_YOUTUBE_URL'));
+        guardarDiscosEnLocalStorage();
+    }
 }
 //Contamos discos y representamos (En el div de resultado siempre vamos a mostrar la orden hecha por si acaso)
 function mostrarNumeroDiscos() {
+    ocultarReproductor();
     document.getElementById('contenido-principal').innerText = `Número de discos: ${discos.length}`;
     document.getElementById('resultado').innerText = 'Se está mostrando la opción: Mostrar número de discos';
 }
 //Mostramos el listado de discos usando listas de bootstrap
 function mostrarListadoDiscos() {
+    ocultarReproductor();
     let listado = discos.map(disco => `<li class="list-group-item">${disco.mostrarInformacion()}</li>`).join('');
     document.getElementById('contenido-principal').innerHTML = `<ul class="list-group">${listado}</ul>`;
     document.getElementById('resultado').innerText = 'Se está mostrando la opción: Mostrar listado de discos';
 }
 //Mostramos el intervalo, pidiendo inicio y fin, y mostramos en lista de boostrap añadiendo el intervalo a resultado para ver el filtro que hemos aplicado
 function mostrarIntervaloDiscos() {
+    ocultarReproductor();
     let inicio = prompt("Introduce el año inicial:");
     let fin = prompt("Introduce el año final:");
     let listado = discos.filter(disco => disco.año >= inicio && disco.año <= fin)
@@ -45,6 +52,7 @@ function mostrarIntervaloDiscos() {
 }
 //Cambiamos la visual central por nuestro formulario para añadir un disco
 function mostrarFormularioAñadirDisco() {
+    ocultarReproductor();
     let formularioHTML = `
         <form id="form-disco">
             <div class="form-group">
@@ -72,6 +80,10 @@ function mostrarFormularioAñadirDisco() {
                 <label for="localizacion">Localización:</label>
                 <input type="number" class="form-control" id="localizacion" name="localizacion">
             </div>
+            <div class="form-group">
+                <label for="youtubeUrl">URL de YouTube:</label>
+                <input type="text" class="form-control" id="youtubeUrl" name="youtubeUrl">
+            </div>
             <button type="button" class="btn btn-success" onclick="guardarDisco()">Guardar Disco</button>
         </form>
     `;
@@ -81,19 +93,21 @@ function mostrarFormularioAñadirDisco() {
 
 //Funcion borrar disco, solo por nombre, si no existe no hace nada
 function borrarDisco() {
+    ocultarReproductor();
     let nombre = prompt("Introduce el nombre del disco que quieres borrar:");
     let index = discos.findIndex(disco => disco.nombre === nombre);
     if (index !== -1) {
         discos.splice(index, 1);
         mostrarNumeroDiscos();
+        guardarDiscosEnLocalStorage();
     } else {
         alert("Disco no encontrado.");
     }
     document.getElementById('resultado').innerText = 'Se está mostrando la opción: Borrar un disco';
 }
-// Consuyltamos el disco por nombre o por posición, y a parte lo mostramos en una card de bootstrpa para que no se vea como una linea pocha
-//Aunque lo suyo sería tbn añadirle la caratula del disco y demas, por eso está pensado como card, solo que era coñazo añadir img tbn al objeto
+// Consultamos el disco por nombre o por posición, y a parte lo mostramos en una card de bootstrap para que no se vea como una linea pocha
 function consultarDisco() {
+    ocultarReproductor();
     let criterio = prompt("¿Cómo quieres consultar el disco? (posición, nombre)");
     let resultado;
     if (criterio === "posición") {
@@ -128,11 +142,13 @@ function guardarDisco() {
         form.grupo.value,
         form.año.value,
         form.tipo.value,
-        form.localizacion.value
+        form.localizacion.value,
+        form.youtubeUrl.value
     );
     discos.push(nuevoDisco);
     form.reset();
     mostrarListadoDiscos();
+    guardarDiscosEnLocalStorage();
 }
 //Funcion cerrar menu, donde cambiamos la visibilidad del boton que se oculta y el menu en si
 function cerrarMenu() {
@@ -145,4 +161,38 @@ function cerrarMenu() {
             <path fill-rule="evenodd" d="M10.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L9.293 7.5H1.5a.5.5 0 0 0 0 1h7.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
         </svg>
     `;
+}
+
+function mostrarReproductor() {
+    document.getElementById('contenido-principal').innerHTML = '';
+    document.getElementById('youtube-player').style.display = 'block';
+    actualizarSelectDiscos();
+    document.getElementById('resultado').innerText = 'Se está mostrando la opción: Mostrar Reproductor de YouTube';
+}
+
+function actualizarSelectDiscos() {
+    let select = document.getElementById('disco-select');
+    select.innerHTML = discos.map((disco, index) => `<option value="${index}">${disco.nombre}</option>`).join('');
+}
+
+function cambiarVideo() {
+    let select = document.getElementById('disco-select');
+    let disco = discos[select.value];
+    document.getElementById('player').src = `https://www.youtube.com/embed/${disco.youtubeUrl}`;
+}
+
+function ocultarReproductor() {
+    document.getElementById('youtube-player').style.display = 'none';
+}
+//Hemos mantenido la misma estructura solo que la aplicamos en conjunción con el local storage para que no se pierdan los datos
+//y se mantengan en el navegador
+function guardarDiscosEnLocalStorage() {
+    localStorage.setItem('discos', JSON.stringify(discos));
+}
+
+function cargarDiscosDeLocalStorage() {
+    let discosGuardados = localStorage.getItem('discos');
+    if (discosGuardados) {
+        discos = JSON.parse(discosGuardados).map(disco => new Disco(disco.nombre, disco.grupo, disco.año, disco.tipo, disco.localizacion, disco.youtubeUrl));
+    }
 }

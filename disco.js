@@ -1,10 +1,11 @@
 class Disco {
-    constructor(nombre, grupo, año, tipo, localizacion) {
+    constructor(nombre, grupo, año, tipo, localizacion, youtubeUrl) {
         this.nombre = nombre;
         this.grupo = grupo;
         this.año = año;
         this.tipo = tipo;
         this.localizacion = localizacion;
+        this.youtubeUrl = youtubeUrl;
         this.prestado = false;
     }
     //Realmente esta funciones del objeto están hechas pero nunca se aplican por el tema de que
