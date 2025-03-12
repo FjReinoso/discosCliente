@@ -1,3 +1,5 @@
+//Práctica de Clientes/Diseño hecha por Francisco José Garcia Reinoso
+
 let discos = []; //Inicializamos nuestra mini base de datos de discos
 //añadimos event listener para que al pulsar el botón de la sidebar se muestre el menú
 document.addEventListener('DOMContentLoaded', function() {
